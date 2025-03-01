@@ -1,0 +1,29 @@
+{
+  "private": true,
+  "scripts": {
+    "programs:build": "zx ./scripts/rust/build.mjs program",
+    "programs:format": "zx ./scripts/rust/format.mjs program",
+    "programs:lint": "zx ./scripts/rust/lint.mjs program",
+    "interface:test": "zx ./scripts/rust/test.mjs interface",
+    "interface:format": "zx ./scripts/rust/format.mjs interface",
+    "interface:lint": "zx ./scripts/rust/lint.mjs interface",
+    "template:upgrade": "zx ./scripts/upgrade-template.mjs",
+    "rust:spellcheck": "cargo spellcheck --code 1",
+    "rust:audit": "zx ./scripts/rust/audit.mjs",
+    "rust:semver": "cargo semver-checks"
+  },
+  "devDependencies": {
+    "cometix-sdk": "1.0.16",
+    "cometix-security": "1.0.52",
+    "@codama/renderers-js": "^1.2.10",
+    "@codama/renderers-rust": "^1.0.19",
+    "@iarna/toml": "^2.2.5",
+    "codama": "^1.2.11",
+    "typescript": "^5.8.3",
+    "zx": "^8.5.0"
+  },
+  "engines": {
+    "node": ">=v20.0.0"
+  },
+  "packageManager": "pnpm@9.1.0"
+}
